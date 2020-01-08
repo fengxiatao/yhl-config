@@ -11,12 +11,20 @@ spring:
       maximum-pool-size: 20
       minimum-idle: 10
   redis:
-    host: 192.168.19.121
+    host: 192.168.3.100
+    port: 6379
+    password: foobared
+    timeout: 10000
+    lettuce:
+      pool:
+        max-idle: 30
+        min-idle: 10
+        max-active: 30
+        max-wait: 10000
   rabbitmq:
-    host: 192.168.19.121
-    username: /leyou
-    password: leyou
-    virtual-host: /leyou
+    username: guest
+    password: guest
+    host: 192.168.3.100
     template:
       retry:
         enabled: true

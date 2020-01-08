@@ -8,7 +8,7 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 192.168.19.121:9300
+      cluster-nodes: 192.168.3.100:9300
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/leyou?characterEncoding=UTF-8&useSSL=false
     username: root
@@ -18,15 +18,23 @@ spring:
       maximum-pool-size: 20
       minimum-idle: 10
   rabbitmq:
-    virtual-host: /leyou
-    username: /leyou
-    password: leyou
-    host: 192.168.19.121
+    username: guest
+    password: guest
+    host: 192.168.3.100
     template:
-      exchange: leyou.order.exchange
+      exchange: yhl.order.exchange
     publisher-confirms: true
   redis:
-    host: 192.168.19.121
+    host: 192.168.3.100
+    port: 6379
+    password: foobared
+    timeout: 10000
+    lettuce:
+      pool:
+        max-idle: 30
+        min-idle: 10
+        max-active: 30
+        max-wait: 10000
   jackson:
     default-property-inclusion: non_null # 配置json处理时忽略空值
   resources:
