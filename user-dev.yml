@@ -2,7 +2,7 @@ server:
   port: 8085
 spring:
   application:
-    name: user-service
+    name: user-center
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/leyou?characterEncoding=UTF-8&useSSL=false
     username: root
