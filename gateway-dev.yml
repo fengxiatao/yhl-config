@@ -6,7 +6,7 @@ spring:
   cloud: 
     gateway:
       routes:
-        - id: user-route
+        - id: USER-CENTER-route
           uri: http://192.168.3.136:8085/
           predicates:
            - Path=/app/user/**
