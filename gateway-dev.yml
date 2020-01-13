@@ -1,12 +1,22 @@
 server:
-  port: 10010
+  port: 2004
 spring:
   application:
-    name: api-gateway
-  rabbitmq:
-    username: guest
-    password: guest
-    host: 192.168.3.100
+    name: gateway-web
+  cloud: 
+    gateway:
+      routes:
+        id: user-route
+        uri: http://192.168.3.136:8085/
+        predicates:
+          - Path=/app/user/**
+        filter:
+          - StripPrefix=1
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:${DATASOURCE_DBTYPE:mysql}://${DATASOURCE_HOST:localhost}:${DATASOURCE_PORT:3306}/yhl?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:root123} 
 eureka:
   client:
     service-url:
@@ -16,23 +26,8 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
     prefer-ip-address: true  #当你获取host时，返回的不是主机名，而是ip
     ip-address: 127.0.0.1
-
-zuul:
-  prefix: /api # 添加路由前缀
-  retryable: true
-  routes:
-    item-service: /item/**  #商品微服务
-    search-service: /search/**  #搜索微服务
-    user-service: /user/**  #用户微服务
-    auth-service: /auth/** #授权中心微服务
-    cart-service: /cart/** #购物车微服务
-    order-service: /** #订单微服务
-    seckill-service: /seckill/** #秒杀微服务
-    comments-service: /review/** #评论微服务
-  ignored-services:
-    - upload-service # 忽略upload-service服务
-  add-host-header: true #携带请求本身的head头信息
-  sensitive-headers: #匹配禁止使用的头信息，这里设置为null，否则set-cookie无效
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
 ribbon:
   ConnectTimeout: 4000 # 连接超时时间(ms)
   ReadTimeout: 2000 # 通信超时时间(ms)
@@ -46,15 +41,5 @@ hystrix:
         isolation:
           thread:
             timeoutInMillisecond: 10000 # 熔断超时时长：10000ms
-leyou:
-  jwt:
-    cookieName: LY_TOKEN
-    pubKeyPath: G:\\tmp\\rsa\\rsa.pub # 公钥地址
-  filter:
-    allowPaths:
-       /api/auth
-       /api/search
-       /api/user/register
-       /api/user/check
-       /api/user/code
-       /api/item
+mybatis:
+  type-aliases-package: com.yhl.usercenter.pojo
