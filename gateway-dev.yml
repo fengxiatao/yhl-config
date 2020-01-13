@@ -1,5 +1,5 @@
 server:
-  port: 2009
+  port: 2004
 spring:
   application:
     name: gateway-web
@@ -7,7 +7,7 @@ spring:
     gateway:
       routes:
         id: user-route
-        uri: http://192.168.3.136:8085/
+        uri: http://192.168.3.136:8085
         predicates:
           - Path=/app/user/**
         filter:
